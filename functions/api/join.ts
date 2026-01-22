@@ -22,17 +22,18 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
     const resend = new Resend(resendKey);
 
     const result = await resend.emails.send({
-      from: "Alloc-8 <no-reply@alloc-8.co.uk>",
-      to: ["info@alloc-8.co.uk"],
-      replyTo: { email }, // so you can hit Reply and respond to the user
-      subject: `Join the journey: ${name}`,
-      html: `
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${String(message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
-      `,
-    });
+  from: "Alloc-8 <no-reply@alloc-8.co.uk>",
+  to: ["info@alloc-8.co.uk"],
+  replyTo: email,
+  subject: `Join the journey: ${name}`,
+  html: `
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Message:</strong></p>
+    <p>${String(message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+  `,
+});
+
 
     // Temporary: include provider result for verification
     return new Response(JSON.stringify({ ok: true, result }), {
