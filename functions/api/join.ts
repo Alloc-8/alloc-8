@@ -1,5 +1,13 @@
 import { Resend } from "resend";
 
+function esc(s: unknown) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .trim();
+}
+
 export const onRequestPost: PagesFunction = async ({ request, env }) => {
   const resendKey = env.RESEND_API_KEY;
   if (!resendKey) {
@@ -10,10 +18,15 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
   }
 
   try {
-    const { name, email, message } = await request.json();
+    const {
+      emailAddress,
+      featuresMatterMost,
+      currentPlacementSystem,
+      mainChallenges,
+    } = await request.json();
 
-    if (!name || !email || !message) {
-      return new Response(JSON.stringify({ ok: false, error: "Missing fields" }), {
+    if (!emailAddress) {
+      return new Response(JSON.stringify({ ok: false, error: "Missing emailAddress" }), {
         status: 400,
         headers: { "content-type": "application/json" },
       });
@@ -22,21 +35,21 @@ export const onRequestPost: PagesFunction = async ({ request, env }) => {
     const resend = new Resend(resendKey);
 
     const result = await resend.emails.send({
-  from: "Alloc-8 <no-reply@alloc-8.co.uk>",
-  to: ["info@alloc-8.co.uk"],
-  replyTo: email,
-  subject: `Join the journey: ${name}`,
-  html: `
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Message:</strong></p>
-    <p>${String(message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
-  `,
-});
+      from: "Alloc-8 <no-reply@alloc-8.co.uk>",
+      to: ["info@alloc-8.co.uk"],
+      replyTo: String(emailAddress),
+      subject: "Join the journey: new feedback submission",
+      html: `
+        <h2>New feedback submission</h2>
+        <p><strong>Email Address:</strong> ${esc(emailAddress)}</p>
+        <p><strong>What features would matter most to you?</strong><br/>${esc(featuresMatterMost)}</p>
+        <p><strong>What is your current placement system?</strong><br/>${esc(currentPlacementSystem)}</p>
+        <p><strong>What are the main challenges with your current system?</strong><br/>${esc(mainChallenges)}</p>
+      `,
+    });
 
-
-    // Temporary: include provider result for verification
-    return new Response(JSON.stringify({ ok: true, result }), {
+    // You can keep this during testing; remove later if you want
+    return new Response(JSON.stringify({ ok: true, id: result.data?.id ?? null }), {
       headers: { "content-type": "application/json" },
     });
   } catch (err: any) {
