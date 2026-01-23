@@ -1,5 +1,5 @@
 
-  # Website Placeholder Design
+  # Website  Design
 
   This is a code bundle for Website Placeholder Design. The original project is available at https://www.figma.com/design/rzlaPCgWJZqZLfklfgvQTw/Website-Placeholder-Design.
 
