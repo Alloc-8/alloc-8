@@ -17,22 +17,41 @@ export default function App() {
     setStep('feedback');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would normally send the data to your backend
-    console.log({ email, feedback, currentSystem, challenges });
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("/api/join", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        emailAddress: email,
+        featuresMatterMost: feedback,
+        currentPlacementSystem: currentSystem,
+        mainChallenges: challenges,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data.ok) {
+      throw new Error("Submission failed");
+    }
+
     setSubmitted(true);
-    
-    // Reset after a delay
+
     setTimeout(() => {
-      setStep('initial');
-      setEmail('');
-      setFeedback('');
-      setCurrentSystem('');
-      setChallenges('');
+      setStep("initial");
+      setEmail("");
+      setFeedback("");
+      setCurrentSystem("");
+      setChallenges("");
       setSubmitted(false);
     }, 4000);
-  };
+  } catch {
+    alert("Something went wrong. Please try again.");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4 overflow-hidden">
@@ -189,7 +208,7 @@ export default function App() {
 
         {/* Footer tagline */}
         <div className="text-center mt-12 text-blue-300/40 text-sm">
-          <p>© 2026 Alloc-8 • Reimagining University Placements</p>
+          <p>© 2026 Alloc-8 • Reimagining University Placements Alloc-8 is a product by Cyber-Panda consulting, for further services please visit www.cyber-panda.co.uk</p>
         </div>
       </div>
     </div>
