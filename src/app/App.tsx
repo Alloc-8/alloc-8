@@ -206,7 +206,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           )}
         </MacScreen>
 
-        {/* Footer tagline */}
+                {/* Footer tagline */}
         <div className="text-center mt-12 text-blue-300/40 text-sm">
           <p>
             © 2026 Alloc-8 is a product by Cyber-Panda consulting, for further services please visit{" "}
@@ -220,7 +220,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             </a>
           </p>
         </div>
-      </div>   {/* closes relative z-10 wrapper */}
-    </div>     {/* closes min-h-screen wrapper */}
+      </div>
+    </div>
   );
 }
