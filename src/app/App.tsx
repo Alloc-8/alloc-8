@@ -207,16 +207,20 @@ const handleSubmit = async (e: React.FormEvent) => {
         </MacScreen>
 
         {/* Footer tagline */}
-<div className="text-center mt-12 text-blue-300/40 text-sm">
-  <p>
-    © 2026 Alloc-8 is a product by Cyber-Panda consulting, for further services please visit{" "}
-    <a
-      href="https://www.cyber-panda.co.uk"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline hover:text-gray-400"
-    >
-      www.cyber-panda.co.uk
-    </a>
-  </p>
-</div>
+        <div className="text-center mt-12 text-blue-300/40 text-sm">
+          <p>
+            © 2026 Alloc-8 is a product by Cyber-Panda consulting, for further services please visit{" "}
+            <a
+              href="https://www.cyber-panda.co.uk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-gray-400"
+            >
+              www.cyber-panda.co.uk
+            </a>
+          </p>
+        </div>
+      </div>   {/* closes relative z-10 wrapper */}
+    </div>     {/* closes min-h-screen wrapper */}
+  );
+}
