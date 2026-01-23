@@ -54,7 +54,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4 overflow-x-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
@@ -76,14 +76,14 @@ const handleSubmit = async (e: React.FormEvent) => {
 
         <MacScreen>
           {step === 'initial' ? (
-            <div className="text-center space-y-8 max-w-2xl mx-auto">
+            <div className="text-center space-y-6 sm:space-y-8 max-w-2xl mx-auto">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
                   New <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">healthcare</span> placement<br />
                   solutions for Universities<br />
                   <span className="text-blue-300/80">coming soon...</span>
                 </h2>
-                <p className="text-blue-200/70 text-lg max-w-xl mx-auto">
+                <p className="text-blue-200/70 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
                   Revolutionary technology to transform how universities manage healthcare student placements, starting with the sector that needs it most
                 </p>
               </div>
@@ -93,7 +93,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-900/50 transition-all hover:shadow-xl hover:shadow-blue-900/70 group"
               >
-                <span>Contribute to the Build by Providing Feedback</span>
+                <span>Contribute to the build by providing feedback</span>
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
 
