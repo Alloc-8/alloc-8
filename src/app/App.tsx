@@ -84,7 +84,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   <span className="text-blue-300/80">coming soon...</span>
                 </h2>
                 <p className="text-blue-200/70 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
-                  Revolutionary technology to transform how universities manage healthcare student placements, starting with the sector that needs it most
+                  Revolutionary technology to transform how universities manage healthcare student placements, starting with the sector that needs it most.
                 </p>
               </div>
 
