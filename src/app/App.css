@@ -250,9 +250,15 @@ h1 em {
 
 #waitlist-form {
     display: flex;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 0;
     max-width: 480px;
     margin: 0 auto;
+}
+
+.email-row {
+    display: flex;
+    gap: 0.75rem;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -301,6 +307,7 @@ button[type="submit"] {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 button[type="submit"]::before {
@@ -323,6 +330,82 @@ button[type="submit"]:hover::before {
     left: 100%;
 }
 
+/* Expanding extra fields */
+.extra-fields {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.extra-fields.expanded {
+    grid-template-rows: 1fr;
+}
+
+.extra-fields-inner {
+    overflow: hidden;
+}
+
+.extra-fields.expanded .extra-fields-inner {
+    padding-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.extra-fields.expanded .field-group {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.extra-fields.expanded .field-group:nth-child(1) { transition-delay: 0.15s; }
+.extra-fields.expanded .field-group:nth-child(2) { transition-delay: 0.25s; }
+.extra-fields.expanded .field-group:nth-child(3) { transition-delay: 0.35s; }
+
+.field-group label {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    font-weight: 400;
+}
+
+.field-group input[type="text"],
+.field-group textarea {
+    width: 100%;
+    padding: 0.9rem 1.25rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    border: 1px solid rgba(33, 33, 33, 0.15);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    color: var(--ink);
+    transition: all 0.3s ease;
+    resize: none;
+}
+
+.field-group input[type="text"]::placeholder,
+.field-group textarea::placeholder {
+    color: var(--ink-muted);
+    opacity: 0.6;
+}
+
+.field-group input[type="text"]:focus,
+.field-group textarea:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: white;
+    box-shadow: 0 4px 20px rgba(33, 33, 33, 0.08);
+}
+
 .form-note {
     font-size: 0.8rem;
     color: var(--ink-muted);
@@ -332,32 +415,112 @@ button[type="submit"]:hover::before {
     text-align: center;
 }
 
-/* Success state */
-.success-message {
-    display: none;
-    padding: 1.5rem 2rem;
-    background: rgba(201, 212, 197, 0.3);
-    border: 1px solid var(--accent-deep);
-    border-radius: 16px;
-    color: var(--ink);
-    max-width: 480px;
-    margin: 0 auto;
+/* Success overlay */
+.success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(16px);
+    background: rgba(250, 250, 248, 0.4);
+    animation: overlayIn 0.5s ease-out forwards;
 }
 
-.success-message.show {
-    display: block;
-    animation: fadeUp 0.5s ease-out;
+.success-overlay.hiding {
+    animation: overlayOut 0.5s ease-in forwards;
 }
 
-.success-message h3 {
+@keyframes overlayIn {
+    from { opacity: 0; backdrop-filter: blur(0); }
+    to   { opacity: 1; backdrop-filter: blur(16px); }
+}
+
+@keyframes overlayOut {
+    from { opacity: 1; backdrop-filter: blur(16px); }
+    to   { opacity: 0; backdrop-filter: blur(0); }
+}
+
+.success-card {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(33, 33, 33, 0.08);
+    border-radius: 28px;
+    padding: 3.5rem 4rem;
+    text-align: center;
+    box-shadow:
+        0 24px 80px rgba(33, 33, 33, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    backdrop-filter: blur(20px);
+    animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    max-width: 440px;
+    width: 90%;
+}
+
+.success-overlay.hiding .success-card {
+    animation: cardOut 0.4s ease-in forwards;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: scale(0.85) translateY(30px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes cardOut {
+    from { opacity: 1; transform: scale(1) translateY(0); }
+    to   { opacity: 0; transform: scale(0.9) translateY(-20px); }
+}
+
+.success-checkmark {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+}
+
+.success-checkmark svg {
+    width: 100%;
+    height: 100%;
+}
+
+.success-checkmark circle {
+    stroke: var(--accent-deep);
+    stroke-width: 2;
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
+    animation: circleIn 0.6s ease-out 0.2s forwards;
+}
+
+.success-checkmark path {
+    stroke: var(--accent-deep);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkIn 0.4s ease-out 0.6s forwards;
+}
+
+@keyframes circleIn {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes checkIn {
+    to { stroke-dashoffset: 0; }
+}
+
+.success-card h2 {
     font-family: 'Instrument Serif', serif;
-    font-size: 1.3rem;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--ink);
     margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
 }
 
-.success-message p {
-    font-size: 0.95rem;
+.success-card p {
+    font-size: 1rem;
     color: var(--ink-light);
+    line-height: 1.6;
 }
 
 /* Features hint */
@@ -476,7 +639,7 @@ footer {
         font-size: 1rem;
     }
 
-    #waitlist-form {
+    .email-row {
         flex-direction: column;
     }
 
@@ -486,5 +649,9 @@ footer {
 
     button[type="submit"] {
         width: 100%;
+    }
+
+    .success-card {
+        padding: 2.5rem 2rem;
     }
 }

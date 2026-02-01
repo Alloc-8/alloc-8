@@ -2,8 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 export default function App() {
-  const [submitted, setSubmitted] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [currentSystem, setCurrentSystem] = useState('');
+  const [challenges, setChallenges] = useState('');
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [overlayHiding, setOverlayHiding] = useState(false);
   const shapesRef = useRef<HTMLDivElement>(null);
 
   // Page metadata
@@ -36,7 +41,12 @@ export default function App() {
       const res = await fetch('/api/join', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ emailAddress: email }),
+        body: JSON.stringify({
+          emailAddress: email,
+          featuresMatterMost: feedback,
+          currentPlacementSystem: currentSystem,
+          mainChallenges: challenges,
+        }),
       });
 
       const data = await res.json();
@@ -45,7 +55,21 @@ export default function App() {
         throw new Error('Submission failed');
       }
 
-      setSubmitted(true);
+      setShowOverlay(true);
+
+      setTimeout(() => {
+        setOverlayHiding(true);
+      }, 2500);
+
+      setTimeout(() => {
+        setShowOverlay(false);
+        setOverlayHiding(false);
+        setExpanded(false);
+        setEmail('');
+        setFeedback('');
+        setCurrentSystem('');
+        setChallenges('');
+      }, 3000);
     } catch {
       alert('Something went wrong. Please try again.');
     }
@@ -73,7 +97,7 @@ export default function App() {
 
         <main>
           <div className="content">
-            <p className="eyebrow">Healthcare Placement Management</p>
+            <p className="eyebrow">Healthcare Placement Solutions</p>
 
             <h1>Where talent meets <em>opportunity</em></h1>
 
@@ -83,30 +107,61 @@ export default function App() {
             </p>
 
             <div className="form-wrapper">
-              {!submitted ? (
-                <>
-                  <form id="waitlist-form" onSubmit={handleSubmit}>
-                    <div className="input-group">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email address"
-                        required
-                        autoComplete="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+              <form id="waitlist-form" onSubmit={handleSubmit}>
+                <div className="email-row">
+                  <div className="input-group">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email address"
+                      required
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      onFocus={() => setExpanded(true)}
+                    />
+                  </div>
+                  <button type="submit">
+                    {expanded ? 'Submit' : 'Join Waitlist'}
+                  </button>
+                </div>
+
+                <div className={`extra-fields ${expanded ? 'expanded' : ''}`}>
+                  <div className="extra-fields-inner">
+                    <div className="field-group">
+                      <label htmlFor="feedback">What features would matter most to you?</label>
+                      <textarea
+                        id="feedback"
+                        placeholder="Share your thoughts, requirements, or ideas..."
+                        value={feedback}
+                        onChange={(e) => setFeedback(e.target.value)}
+                        rows={3}
                       />
                     </div>
-                    <button type="submit">Join Waitlist</button>
-                  </form>
-                  <p className="form-note">Be the first to know when we launch. No spam, ever.</p>
-                </>
-              ) : (
-                <div className="success-message show">
-                  <h3>You&apos;re on the list!</h3>
-                  <p>We&apos;ll be in touch soon with updates on our launch.</p>
+                    <div className="field-group">
+                      <label htmlFor="currentSystem">What is your current placement system?</label>
+                      <input
+                        id="currentSystem"
+                        type="text"
+                        placeholder="e.g., manual spreadsheets, existing software..."
+                        value={currentSystem}
+                        onChange={(e) => setCurrentSystem(e.target.value)}
+                      />
+                    </div>
+                    <div className="field-group">
+                      <label htmlFor="challenges">What are the main challenges you face?</label>
+                      <textarea
+                        id="challenges"
+                        placeholder="e.g., inefficiency, lack of transparency, difficulty tracking..."
+                        value={challenges}
+                        onChange={(e) => setChallenges(e.target.value)}
+                        rows={3}
+                      />
+                    </div>
+                  </div>
                 </div>
-              )}
+              </form>
+              <p className="form-note">Be the first to know when we launch. No spam, ever.</p>
             </div>
 
             <div className="features">
@@ -159,6 +214,21 @@ export default function App() {
           </div>
         </footer>
       </div>
+
+      {showOverlay && (
+        <div className={`success-overlay ${overlayHiding ? 'hiding' : ''}`}>
+          <div className="success-card">
+            <div className="success-checkmark">
+              <svg viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="25" fill="none" />
+                <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+              </svg>
+            </div>
+            <h2>Thank You!</h2>
+            <p>You&apos;re on the list. We&apos;ll keep you updated on our progress.</p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
