@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
+import cyberPandaLogo from '../cyber-panda-consulting-logo.png';
 
 export default function App() {
   const [expanded, setExpanded] = useState(false);
@@ -9,11 +10,20 @@ export default function App() {
   const [challenges, setChallenges] = useState('');
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayHiding, setOverlayHiding] = useState(false);
+  const [showCross, setShowCross] = useState(false);
   const shapesRef = useRef<HTMLDivElement>(null);
 
   // Page metadata
   useEffect(() => {
     document.title = 'Alloc-8 | Healthcare Placement Management — Coming Soon';
+  }, []);
+
+  // Toggle between "care" and "+" every 2.5s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCross((prev) => !prev);
+    }, 2500);
+    return () => clearInterval(interval);
   }, []);
 
   // Parallax effect on background shapes
@@ -207,6 +217,18 @@ export default function App() {
 
         <footer>
           <div className="footer-left">© 2026 Alloc-8. All rights reserved.</div>
+          <div className="footer-credit">
+            <span>Made with</span>
+            <span className="toggle-word-wrapper">
+              <span className={`toggle-word ${showCross ? 'hide' : 'show'}`}>care</span>
+              <span className={`toggle-cross ${showCross ? 'show' : 'hide'}`}>+</span>
+            </span>
+            <span>by</span>
+            <a href="https://cyber-panda.co.uk" target="_blank" rel="noopener noreferrer" className="credit-link">
+              <img src={cyberPandaLogo} alt="Cyber Panda Consulting" className="credit-logo" />
+              <span>Cyber Panda Consulting</span>
+            </a>
+          </div>
           <div className="footer-links">
             <a href="#">Privacy</a>
             <a href="#">Terms</a>
