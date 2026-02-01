@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import cyberPandaLogo from '../cyber-panda-consulting-logo.png';
+import alloc8Logo from '../logo.png';
 
 export default function App() {
   const [expanded, setExpanded] = useState(false);
@@ -10,7 +11,8 @@ export default function App() {
   const [challenges, setChallenges] = useState('');
   const [showOverlay, setShowOverlay] = useState(false);
   const [overlayHiding, setOverlayHiding] = useState(false);
-  const [showCross, setShowCross] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+  const rotatingWords = ['care', 'allocation', 'precision', 'coordination', 'visibility'];
   const shapesRef = useRef<HTMLDivElement>(null);
 
   // Page metadata
@@ -18,13 +20,13 @@ export default function App() {
     document.title = 'Alloc-8 | Healthcare Placement Management — Coming Soon';
   }, []);
 
-  // Toggle between "care" and "+" every 2.5s
+  // Cycle through rotating words every 1s
   useEffect(() => {
     const interval = setInterval(() => {
-      setShowCross((prev) => !prev);
-    }, 2500);
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 1500);
     return () => clearInterval(interval);
-  }, []);
+  }, [rotatingWords.length]);
 
   // Parallax effect on background shapes
   useEffect(() => {
@@ -99,7 +101,7 @@ export default function App() {
       <div className="page-container">
         <header>
           <div className="logo">
-            <div className="logo-mark" />
+            <img src={alloc8Logo} alt="Alloc-8" className="logo-img" />
             <span className="logo-text">Alloc-8</span>
           </div>
           <span className="header-tag">Coming 2026</span>
@@ -220,8 +222,14 @@ export default function App() {
           <div className="footer-credit">
             <span>Made with</span>
             <span className="toggle-word-wrapper">
-              <span className={`toggle-word ${showCross ? 'hide' : 'show'}`}>care</span>
-              <span className={`toggle-cross ${showCross ? 'show' : 'hide'}`}>+</span>
+              {rotatingWords.map((word, i) => (
+                <span
+                  key={word}
+                  className={`toggle-word ${i === wordIndex ? 'show' : 'hide'}`}
+                >
+                  ❉ {word}
+                </span>
+              ))}
             </span>
             <span>by</span>
             <a href="https://cyber-panda.co.uk" target="_blank" rel="noopener noreferrer" className="credit-link">
