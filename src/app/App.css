@@ -64,8 +64,8 @@ body::before {
 }
 
 .shape-1 {
-    width: 600px;
-    height: 600px;
+    width: clamp(350px, 40vw, 850px);
+    height: clamp(350px, 40vw, 850px);
     background: var(--accent);
     top: -200px;
     right: -100px;
@@ -73,8 +73,8 @@ body::before {
 }
 
 .shape-2 {
-    width: 400px;
-    height: 400px;
+    width: clamp(250px, 26vw, 580px);
+    height: clamp(250px, 26vw, 580px);
     background: var(--blush);
     bottom: -100px;
     left: -100px;
@@ -82,8 +82,8 @@ body::before {
 }
 
 .shape-3 {
-    width: 300px;
-    height: 300px;
+    width: clamp(180px, 19vw, 420px);
+    height: clamp(180px, 19vw, 420px);
     background: var(--accent-deep);
     opacity: 0.2;
     top: 50%;
@@ -103,13 +103,13 @@ body::before {
     z-index: 1;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;  
-    overflow: hidden; 
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* Header */
 header {
-    padding: 1rem 3rem;
+    padding: clamp(0.75rem, 0.4vw + 0.5rem, 1.25rem) clamp(1.5rem, 2vw + 0.5rem, 5rem);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -133,25 +133,25 @@ header {
 }
 
 .logo-img {
-    width: 42px;
-    height: 42px;
+    width: clamp(36px, 1.5vw + 24px, 52px);
+    height: clamp(36px, 1.5vw + 24px, 52px);
     object-fit: contain;
     border-radius: 12px;
 }
 
 .logo-text {
     font-family: 'Instrument Serif', serif;
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 0.3vw + 1.05rem, 1.8rem);
     letter-spacing: -0.02em;
     color: var(--ink);
 }
 
 .header-tag {
-    font-size: 0.75rem;
+    font-size: clamp(0.65rem, 0.12vw + 0.55rem, 0.85rem);
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--ink-muted);
-    padding: 0.5rem 1rem;
+    padding: clamp(0.4rem, 0.1vw + 0.3rem, 0.6rem) clamp(0.75rem, 0.15vw + 0.6rem, 1.2rem);
     border: 1px solid var(--ink-muted);
     border-radius: 100px;
     opacity: 0.8;
@@ -163,12 +163,12 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 3rem 4rem;
+    padding: clamp(1.5rem, 1vw + 0.75rem, 3rem) clamp(1.5rem, 2vw + 0.5rem, 5rem) clamp(2rem, 2vw + 1rem, 6rem);
     overflow-y: auto;
 }
 
 .content {
-    max-width: 720px;
+    max-width: clamp(320px, 50vw, 860px);
     text-align: center;
 }
 
@@ -176,18 +176,18 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 0.12vw + 0.62rem, 0.95rem);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--ink-muted);
-    margin-bottom: 2rem;
+    margin-bottom: clamp(1.25rem, 0.75vw + 0.75rem, 2.5rem);
     animation: fadeUp 1s ease-out 0.2s both;
 }
 
 .eyebrow::before,
 .eyebrow::after {
     content: '';
-    width: 40px;
+    width: clamp(24px, 2.5vw, 60px);
     height: 1px;
     background: var(--ink-muted);
     opacity: 0.4;
@@ -200,12 +200,12 @@ main {
 
 h1 {
     font-family: 'Instrument Serif', serif;
-    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-size: clamp(2.5rem, 3vw + 1.8rem, 7rem);
     font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.03em;
     color: var(--ink);
-    margin-bottom: 1.5rem;
+    margin-bottom: clamp(1rem, 0.5vw + 0.75rem, 2rem);
     animation: fadeUp 1s ease-out 0.4s both;
 }
 
@@ -215,11 +215,11 @@ h1 em {
 }
 
 .subtitle {
-    font-size: 1.15rem;
+    font-size: clamp(1rem, 0.2vw + 0.9rem, 1.4rem);
     line-height: 1.7;
     color: var(--ink-light);
-    max-width: 520px;
-    margin: 0 auto 3rem;
+    max-width: clamp(300px, 36vw, 600px);
+    margin: 0 auto clamp(2rem, 1.5vw + 1rem, 4rem);
     font-weight: 300;
     animation: fadeUp 1s ease-out 0.6s both;
 }
@@ -233,7 +233,7 @@ h1 em {
     display: flex;
     flex-direction: column;
     gap: 0;
-    max-width: 480px;
+    max-width: clamp(320px, 36vw, 560px);
     margin: 0 auto;
 }
 
@@ -246,15 +246,15 @@ h1 em {
 
 .input-group {
     flex: 1;
-    min-width: 260px;
+    min-width: clamp(200px, 20vw, 300px);
     position: relative;
 }
 
 input[type="email"] {
     width: 100%;
-    padding: 1.1rem 1.5rem;
+    padding: clamp(0.9rem, 0.2vw + 0.7rem, 1.3rem) clamp(1.2rem, 0.3vw + 0.9rem, 1.8rem);
     font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 0.12vw + 0.82rem, 1.15rem);
     border: 1px solid rgba(33, 33, 33, 0.15);
     border-radius: 100px;
     background: rgba(255, 255, 255, 0.7);
@@ -275,9 +275,9 @@ input[type="email"]:focus {
 }
 
 button[type="submit"] {
-    padding: 1.1rem 2.2rem;
+    padding: clamp(0.9rem, 0.2vw + 0.7rem, 1.3rem) clamp(1.8rem, 0.5vw + 1.3rem, 2.8rem);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 0.12vw + 0.75rem, 1.1rem);
     font-weight: 500;
     letter-spacing: 0.02em;
     border: none;
@@ -353,7 +353,7 @@ button[type="submit"]:hover::before {
 .extra-fields.expanded .field-group:nth-child(3) { transition-delay: 0.35s; }
 
 .field-group label {
-    font-size: 0.85rem;
+    font-size: clamp(0.8rem, 0.08vw + 0.73rem, 0.95rem);
     color: var(--ink-muted);
     font-weight: 400;
 }
@@ -361,9 +361,9 @@ button[type="submit"]:hover::before {
 .field-group input[type="text"],
 .field-group textarea {
     width: 100%;
-    padding: 0.9rem 1.25rem;
+    padding: clamp(0.75rem, 0.15vw + 0.6rem, 1.1rem) clamp(1rem, 0.2vw + 0.8rem, 1.5rem);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.9rem, 0.08vw + 0.83rem, 1.05rem);
     border: 1px solid rgba(33, 33, 33, 0.15);
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.7);
@@ -388,7 +388,7 @@ button[type="submit"]:hover::before {
 }
 
 .form-note {
-    font-size: 0.8rem;
+    font-size: clamp(0.75rem, 0.08vw + 0.68rem, 0.9rem);
     color: var(--ink-muted);
     margin-top: 1rem;
     opacity: 0.8;
@@ -427,14 +427,14 @@ button[type="submit"]:hover::before {
     background: rgba(255, 255, 255, 0.75);
     border: 1px solid rgba(33, 33, 33, 0.08);
     border-radius: 28px;
-    padding: 3.5rem 4rem;
+    padding: clamp(2.5rem, 1.5vw + 1.5rem, 4.5rem) clamp(2rem, 2vw + 1rem, 5rem);
     text-align: center;
     box-shadow:
         0 24px 80px rgba(33, 33, 33, 0.12),
         0 0 0 1px rgba(255, 255, 255, 0.5) inset;
     backdrop-filter: blur(20px);
     animation: cardIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    max-width: 440px;
+    max-width: clamp(340px, 30vw + 60px, 520px);
     width: 90%;
 }
 
@@ -453,8 +453,8 @@ button[type="submit"]:hover::before {
 }
 
 .success-checkmark {
-    width: 64px;
-    height: 64px;
+    width: clamp(48px, 2.5vw + 32px, 80px);
+    height: clamp(48px, 2.5vw + 32px, 80px);
     margin: 0 auto 1.5rem;
 }
 
@@ -491,7 +491,7 @@ button[type="submit"]:hover::before {
 
 .success-card h2 {
     font-family: 'Instrument Serif', serif;
-    font-size: 2.2rem;
+    font-size: clamp(1.8rem, 0.5vw + 1.4rem, 2.8rem);
     font-weight: 400;
     color: var(--ink);
     margin-bottom: 0.5rem;
@@ -499,7 +499,7 @@ button[type="submit"]:hover::before {
 }
 
 .success-card p {
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 0.12vw + 0.8rem, 1.15rem);
     color: var(--ink-light);
     line-height: 1.6;
 }
@@ -508,8 +508,8 @@ button[type="submit"]:hover::before {
 .features {
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    margin-top: 4rem;
+    gap: clamp(1.5rem, 1.5vw + 0.5rem, 4.5rem);
+    margin-top: clamp(2.5rem, 2vw + 1rem, 5.5rem);
     animation: fadeUp 1s ease-out 1s both;
     flex-wrap: wrap;
 }
@@ -518,13 +518,13 @@ button[type="submit"]:hover::before {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-size: 0.85rem;
+    font-size: clamp(0.8rem, 0.08vw + 0.73rem, 1rem);
     color: var(--ink-muted);
 }
 
 .feature-icon {
-    width: 36px;
-    height: 36px;
+    width: clamp(32px, 1.5vw + 20px, 48px);
+    height: clamp(32px, 1.5vw + 20px, 48px);
     border-radius: 10px;
     background: var(--cream-warm);
     display: flex;
@@ -533,14 +533,14 @@ button[type="submit"]:hover::before {
 }
 
 .feature-icon svg {
-    width: 18px;
-    height: 18px;
+    width: clamp(16px, 0.5vw + 12px, 24px);
+    height: clamp(16px, 0.5vw + 12px, 24px);
     stroke: var(--ink-light);
 }
 
 /* Footer */
 footer {
-    padding: 1.5rem 3rem;
+    padding: clamp(1rem, 0.5vw + 0.5rem, 2rem) clamp(1.5rem, 2vw + 0.5rem, 5rem);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -554,7 +554,7 @@ footer {
 }
 
 .footer-left {
-    font-size: 0.85rem;
+    font-size: clamp(0.8rem, 0.08vw + 0.73rem, 0.95rem);
     color: var(--ink-muted);
 }
 
@@ -562,7 +562,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.8rem;
+    font-size: clamp(0.75rem, 0.08vw + 0.68rem, 0.9rem);
     color: var(--ink-muted);
 }
 
@@ -571,15 +571,15 @@ footer {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 5.5rem;
-    height: 1.2rem;
+    width: clamp(4.5rem, 0.5vw + 4rem, 6.5rem);
+    height: clamp(1rem, 0.1vw + 0.9rem, 1.4rem);
     overflow: hidden;
 }
 
 .toggle-word {
     position: absolute;
     color: var(--ink-muted);
-    font-size: 0.8rem;
+    font-size: clamp(0.75rem, 0.08vw + 0.68rem, 0.9rem);
     white-space: nowrap;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -610,19 +610,19 @@ footer {
 }
 
 .credit-logo {
-    width: 20px;
-    height: 20px;
+    width: clamp(18px, 0.2vw + 16px, 24px);
+    height: clamp(18px, 0.2vw + 16px, 24px);
     object-fit: contain;
     border-radius: 4px;
 }
 
 .footer-links {
     display: flex;
-    gap: 2rem;
+    gap: clamp(1.5rem, 0.5vw + 1rem, 3rem);
 }
 
 .footer-links a {
-    font-size: 0.85rem;
+    font-size: clamp(0.8rem, 0.08vw + 0.73rem, 0.95rem);
     color: var(--ink-muted);
     text-decoration: none;
     transition: color 0.3s ease;
@@ -644,18 +644,13 @@ footer {
     top: 0;
 }
 
-.deco-line-v.left { left: 3rem; }
-.deco-line-v.right { right: 3rem; }
+.deco-line-v.left { left: clamp(1.5rem, 2vw + 0.5rem, 5rem); }
+.deco-line-v.right { right: clamp(1.5rem, 2vw + 0.5rem, 5rem); }
 
-/* Responsive */
+/* Responsive — structural layout changes only (sizing handled by clamp) */
 @media (max-width: 768px) {
     header {
-        padding: 1.5rem;
         gap: 1rem;
-    }
-
-    main {
-        padding: 2rem 1.5rem;
     }
 
     .features {
@@ -663,7 +658,6 @@ footer {
     }
 
     footer {
-        padding: 1.25rem 1.5rem;
         flex-direction: column;
         text-align: center;
     }
@@ -676,14 +670,6 @@ footer {
 }
 
 @media (max-width: 480px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    .subtitle {
-        font-size: 1rem;
-    }
-
     .email-row {
         flex-direction: column;
     }
@@ -694,9 +680,5 @@ footer {
 
     button[type="submit"] {
         width: 100%;
-    }
-
-    .success-card {
-        padding: 2.5rem 2rem;
     }
 }
