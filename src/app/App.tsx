@@ -4,7 +4,6 @@ import cyberPandaLogo from '../cyber-panda-consulting-logo.png';
 import alloc8Logo from '../logo.png';
 
 export default function App() {
-  const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState('');
   const [feedback, setFeedback] = useState('');
   const [currentSystem, setCurrentSystem] = useState('');
@@ -76,7 +75,6 @@ export default function App() {
       setTimeout(() => {
         setShowOverlay(false);
         setOverlayHiding(false);
-        setExpanded(false);
         setEmail('');
         setFeedback('');
         setCurrentSystem('');
@@ -111,69 +109,72 @@ export default function App() {
           <div className="content">
             <p className="eyebrow">Healthcare Placement Solutions</p>
 
-            <h1>Where talent meets <em>opportunity</em></h1>
+            <div className="hero-split">
+              <div className="hero-left">
+                <h1>A smart placements solution is <em>coming...</em></h1>
 
-            <p className="subtitle">
-              A smarter way to manage clinical placements. Streamlined allocation,
-              seamless coordination, and complete visibility — built for modern healthcare education.
-            </p>
+                <p className="subtitle">
+                  A smarter way to manage clinical placements. Streamlined allocation,
+                  seamless coordination, and complete visibility — built for modern healthcare education.
+                </p>
+              </div>
 
-            <div className="form-wrapper">
-              <form id="waitlist-form" onSubmit={handleSubmit}>
-                <div className="email-row">
-                  <div className="input-group">
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Enter your email address"
-                      required
-                      autoComplete="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      onFocus={() => setExpanded(true)}
-                    />
-                  </div>
-                  <button type="submit">
-                    {expanded ? 'Submit' : 'Join Waitlist'}
-                  </button>
+              <div className="hero-right">
+                <div className="form-wrapper">
+                  <form id="waitlist-form" onSubmit={handleSubmit}>
+                    <div className="email-row">
+                      <div className="input-group">
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Enter your email address"
+                          required
+                          autoComplete="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                      <button type="submit">Submit</button>
+                    </div>
+
+                    <div className="extra-fields expanded">
+                      <div className="extra-fields-inner">
+                        <div className="field-group">
+                          <label htmlFor="feedback">What features would matter most to you?</label>
+                          <textarea
+                            id="feedback"
+                            placeholder="Share your thoughts, requirements, or ideas..."
+                            value={feedback}
+                            onChange={(e) => setFeedback(e.target.value)}
+                            rows={3}
+                          />
+                        </div>
+                        <div className="field-group">
+                          <label htmlFor="currentSystem">What is your current placement system?</label>
+                          <input
+                            id="currentSystem"
+                            type="text"
+                            placeholder="e.g., manual spreadsheets, existing software..."
+                            value={currentSystem}
+                            onChange={(e) => setCurrentSystem(e.target.value)}
+                          />
+                        </div>
+                        <div className="field-group">
+                          <label htmlFor="challenges">What are the main challenges you face?</label>
+                          <textarea
+                            id="challenges"
+                            placeholder="e.g., inefficiency, lack of transparency, difficulty tracking..."
+                            value={challenges}
+                            onChange={(e) => setChallenges(e.target.value)}
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <p className="form-note">Be the first to know when we launch. No spam, ever.</p>
                 </div>
-
-                <div className={`extra-fields ${expanded ? 'expanded' : ''}`}>
-                  <div className="extra-fields-inner">
-                    <div className="field-group">
-                      <label htmlFor="feedback">What features would matter most to you?</label>
-                      <textarea
-                        id="feedback"
-                        placeholder="Share your thoughts, requirements, or ideas..."
-                        value={feedback}
-                        onChange={(e) => setFeedback(e.target.value)}
-                        rows={3}
-                      />
-                    </div>
-                    <div className="field-group">
-                      <label htmlFor="currentSystem">What is your current placement system?</label>
-                      <input
-                        id="currentSystem"
-                        type="text"
-                        placeholder="e.g., manual spreadsheets, existing software..."
-                        value={currentSystem}
-                        onChange={(e) => setCurrentSystem(e.target.value)}
-                      />
-                    </div>
-                    <div className="field-group">
-                      <label htmlFor="challenges">What are the main challenges you face?</label>
-                      <textarea
-                        id="challenges"
-                        placeholder="e.g., inefficiency, lack of transparency, difficulty tracking..."
-                        value={challenges}
-                        onChange={(e) => setChallenges(e.target.value)}
-                        rows={3}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <p className="form-note">Be the first to know when we launch. No spam, ever.</p>
+              </div>
             </div>
 
             <div className="features">
