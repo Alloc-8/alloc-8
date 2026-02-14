@@ -1,226 +1,265 @@
-import { useState } from 'react';
-import { MacScreen } from '@/app/components/mac-screen';
-import { Button } from '@/app/components/ui/button';
-import { Input } from '@/app/components/ui/input';
-import { Textarea } from '@/app/components/ui/textarea';
-import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import './App.css';
+import cyberPandaLogo from '../cyber-panda-consulting-logo.png';
+import alloc8Logo from '../logo.png';
 
 export default function App() {
-  const [step, setStep] = useState<'initial' | 'feedback'>('initial');
   const [email, setEmail] = useState('');
   const [feedback, setFeedback] = useState('');
   const [currentSystem, setCurrentSystem] = useState('');
   const [challenges, setChallenges] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [overlayHiding, setOverlayHiding] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+  const rotatingWords = ['care', 'allocation', 'precision', 'coordination', 'visibility'];
+  const shapesRef = useRef<HTMLDivElement>(null);
 
-  const handleNext = () => {
-    setStep('feedback');
+  // Page metadata
+  useEffect(() => {
+    document.title = 'Alloc-8 | Healthcare Placement Management — Coming Soon';
+  }, []);
+
+  // Cycle through rotating words every 1s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [rotatingWords.length]);
+
+  // Parallax effect on background shapes
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!shapesRef.current) return;
+      const shapes = shapesRef.current.querySelectorAll('.shape');
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+      shapes.forEach((shape, i) => {
+        const factor = (i + 1) * 0.5;
+        (shape as HTMLElement).style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+      });
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('/api/join', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          emailAddress: email,
+          featuresMatterMost: feedback,
+          currentPlacementSystem: currentSystem,
+          mainChallenges: challenges,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        throw new Error('Submission failed');
+      }
+
+      setShowOverlay(true);
+
+      setTimeout(() => {
+        setOverlayHiding(true);
+      }, 2500);
+
+      setTimeout(() => {
+        setShowOverlay(false);
+        setOverlayHiding(false);
+        setEmail('');
+        setFeedback('');
+        setCurrentSystem('');
+        setChallenges('');
+      }, 3000);
+    } catch {
+      alert('Something went wrong. Please try again.');
+    }
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  try {
-    const res = await fetch("/api/join", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        emailAddress: email,
-        featuresMatterMost: feedback,
-        currentPlacementSystem: currentSystem,
-        mainChallenges: challenges,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok || !data.ok) {
-      throw new Error("Submission failed");
-    }
-
-    setSubmitted(true);
-
-    setTimeout(() => {
-      setStep("initial");
-      setEmail("");
-      setFeedback("");
-      setCurrentSystem("");
-      setChallenges("");
-      setSubmitted(false);
-    }, 4000);
-  } catch {
-    alert("Something went wrong. Please try again.");
-  }
-};
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4 overflow-x-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+    <>
+      <div className="bg-shapes" ref={shapesRef}>
+        <div className="shape shape-1" />
+        <div className="shape shape-2" />
+        <div className="shape shape-3" />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl">
-        {/* Logo */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-2">
-            Alloc-8
-          </h1>
-          <div className="flex items-center justify-center gap-2 text-blue-300/60">
-            <Sparkles className="w-4 h-4" />
-            <span className="text-sm uppercase tracking-wider">Innovation in Progress</span>
-            <Sparkles className="w-4 h-4" />
+      <div className="deco-line deco-line-v left" />
+      <div className="deco-line deco-line-v right" />
+
+      <div className="page-container">
+        <header>
+          <div className="logo">
+            <img src={alloc8Logo} alt="Alloc-8" className="logo-img" />
+            <span className="logo-text">Alloc-8</span>
+          </div>
+          <span className="header-tag">Coming 2026</span>
+        </header>
+
+        <main>
+          <div className="content">
+            <p className="eyebrow">Healthcare Placement Solutions</p>
+
+            <div className="hero-split">
+              <div className="hero-left">
+                <h1>A smart placements solution is <em>coming...</em></h1>
+
+                <p className="subtitle">
+                  A smarter way to manage clinical placements. Streamlined allocation,
+                  seamless coordination, and complete visibility — built for modern healthcare education.
+                </p>
+              </div>
+
+              <div className="hero-right">
+                <div className="form-wrapper">
+                  <form id="waitlist-form" onSubmit={handleSubmit}>
+                    <div className="email-row">
+                      <div className="input-group">
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Enter your email address"
+                          required
+                          autoComplete="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                      <button type="submit">Submit</button>
+                    </div>
+
+                    <div className="extra-fields expanded">
+                      <div className="extra-fields-inner">
+                        <div className="field-group">
+                          <label htmlFor="feedback">What features would matter most to you?</label>
+                          <textarea
+                            id="feedback"
+                            placeholder="Share your thoughts, requirements, or ideas..."
+                            value={feedback}
+                            onChange={(e) => setFeedback(e.target.value)}
+                            rows={3}
+                          />
+                        </div>
+                        <div className="field-group">
+                          <label htmlFor="currentSystem">What is your current placement system?</label>
+                          <input
+                            id="currentSystem"
+                            type="text"
+                            placeholder="e.g., manual spreadsheets, existing software..."
+                            value={currentSystem}
+                            onChange={(e) => setCurrentSystem(e.target.value)}
+                          />
+                        </div>
+                        <div className="field-group">
+                          <label htmlFor="challenges">What are the main challenges you face?</label>
+                          <textarea
+                            id="challenges"
+                            placeholder="e.g., inefficiency, lack of transparency, difficulty tracking..."
+                            value={challenges}
+                            onChange={(e) => setChallenges(e.target.value)}
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <p className="form-note">Be the first to know when we launch. No spam, ever.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="features">
+              <div className="feature">
+                <div className="feature-icon">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+                    />
+                  </svg>
+                </div>
+                <span>Student Management</span>
+              </div>
+              <div className="feature">
+                <div className="feature-icon">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                    />
+                  </svg>
+                </div>
+                <span>Smart Scheduling</span>
+              </div>
+              <div className="feature">
+                <div className="feature-icon">
+                  <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                    />
+                  </svg>
+                </div>
+                <span>Compliance Tracking</span>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <footer>
+          <div className="footer-left">© 2026 Alloc-8. All rights reserved.</div>
+          <div className="footer-credit">
+            <span>Made with</span>
+            <span className="toggle-word-wrapper">
+              {rotatingWords.map((word, i) => (
+                <span
+                  key={word}
+                  className={`toggle-word ${i === wordIndex ? 'show' : 'hide'}`}
+                >
+                  ❉ {word}
+                </span>
+              ))}
+            </span>
+            <span>by</span>
+            <a href="https://cyber-panda.co.uk" target="_blank" rel="noopener noreferrer" className="credit-link">
+              <img src={cyberPandaLogo} alt="Cyber Panda Consulting" className="credit-logo" />
+              <span>Cyber Panda Consulting</span>
+            </a>
+          </div>
+          <div className="footer-links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Contact</a>
+          </div>
+        </footer>
+      </div>
+
+      {showOverlay && (
+        <div className={`success-overlay ${overlayHiding ? 'hiding' : ''}`}>
+          <div className="success-card">
+            <div className="success-checkmark">
+              <svg viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="25" fill="none" />
+                <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+              </svg>
+            </div>
+            <h2>Thank You!</h2>
+            <p>You&apos;re on the list. We&apos;ll keep you updated on our progress.</p>
           </div>
         </div>
-
-        <MacScreen>
-          {step === 'initial' ? (
-            <div className="text-center space-y-6 sm:space-y-8 max-w-2xl mx-auto">
-              <div className="space-y-4">
-                <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
-                  New <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">healthcare</span> placement<br />
-                  solutions for Universities<br />
-                  <span className="text-blue-300/80">coming soon...</span>
-                </h2>
-                <p className="text-blue-200/70 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
-                  Revolutionary technology to transform how universities manage healthcare student placements, starting with the sector that needs it most.
-                </p>
-              </div>
-
-              <Button 
-                onClick={handleNext}
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-900/50 transition-all hover:shadow-xl hover:shadow-blue-900/70 group"
-              >
-                <span>Contribute to the build by providing feedback</span>
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-
-              <div className="pt-4 flex items-center justify-center gap-2 text-blue-300/50 text-sm">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span>We're building something extraordinary</span>
-              </div>
-            </div>
-          ) : submitted ? (
-            <div className="text-center space-y-6">
-              <CheckCircle2 className="w-20 h-20 text-green-400 mx-auto animate-in zoom-in duration-500" />
-              <div className="space-y-3">
-                <h3 className="text-3xl font-bold text-white">Thank You!</h3>
-                <p className="text-blue-200/70 text-lg max-w-md mx-auto">
-                  Your input is invaluable. We'll be in touch soon to keep you updated on our progress.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="w-full max-w-xl mx-auto space-y-6">
-              <div className="text-center space-y-3 mb-8">
-                <h3 className="text-3xl font-bold text-white">
-                  Shape the Future
-                </h3>
-                <p className="text-blue-200/70">
-                  We want to build this with <span className="text-blue-300 font-semibold">your</span> requirements in mind. Be part of something exciting.
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm text-blue-200/90">
-                    Email Address *
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your.email@university.ac.uk"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="bg-slate-900/50 border-blue-800/50 text-white placeholder:text-blue-300/30 focus:border-blue-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="feedback" className="text-sm text-blue-200/90">
-                    What features would matter most to you?
-                  </label>
-                  <Textarea
-                    id="feedback"
-                    placeholder="Share your thoughts, requirements, or challenges you face with current placement systems..."
-                    value={feedback}
-                    onChange={(e) => setFeedback(e.target.value)}
-                    rows={4}
-                    className="bg-slate-900/50 border-blue-800/50 text-white placeholder:text-blue-300/30 focus:border-blue-500 resize-none"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="currentSystem" className="text-sm text-blue-200/90">
-                    What is your current placement system?
-                  </label>
-                  <Input
-                    id="currentSystem"
-                    type="text"
-                    placeholder="e.g., manual spreadsheets, existing software..."
-                    value={currentSystem}
-                    onChange={(e) => setCurrentSystem(e.target.value)}
-                    className="bg-slate-900/50 border-blue-800/50 text-white placeholder:text-blue-300/30 focus:border-blue-500"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="challenges" className="text-sm text-blue-200/90">
-                    What are the main challenges with your current system?
-                  </label>
-                  <Textarea
-                    id="challenges"
-                    placeholder="e.g., inefficiency, lack of transparency, difficulty in tracking..."
-                    value={challenges}
-                    onChange={(e) => setChallenges(e.target.value)}
-                    rows={4}
-                    className="bg-slate-900/50 border-blue-800/50 text-white placeholder:text-blue-300/30 focus:border-blue-500 resize-none"
-                  />
-                </div>
-
-                <div className="flex gap-3">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setStep('initial')}
-                    className="border-blue-800/50 text-blue-200 hover:bg-blue-900/30"
-                  >
-                    Back
-                  </Button>
-                  <Button
-                    type="submit"
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white"
-                  >
-                    Join the Journey
-                  </Button>
-                </div>
-              </form>
-
-              <p className="text-xs text-blue-300/40 text-center">
-                We respect your privacy. Your information will only be used to keep you informed about Alloc-8.
-              </p>
-            </div>
-          )}
-        </MacScreen>
-
-                {/* Footer tagline */}
-        <div className="text-center mt-12 text-blue-300/40 text-sm">
-          <p>
-            © 2026 Alloc-8 is a product by Cyber-Panda consulting, for further services please visit{" "}
-            <a
-              href="https://www.cyber-panda.co.uk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-gray-400"
-            >
-              www.cyber-panda.co.uk
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
