@@ -16,7 +16,7 @@ export default function App() {
 
   // Page metadata
   useEffect(() => {
-    document.title = 'Alloc-8 | Healthcare Placement Management — Coming Soon';
+    document.title = 'Alloc-8 | Clinical Placement Management Software for Universities';
   }, []);
 
   // Cycle through rotating words every 1s
@@ -97,39 +97,42 @@ export default function App() {
       <div className="deco-line deco-line-v right" />
 
       <div className="page-container">
-        <header>
-          <div className="logo">
-            <img src={alloc8Logo} alt="Alloc-8" className="logo-img" />
-            <span className="logo-text">Alloc-8</span>
-          </div>
-          <span className="header-tag">Coming 2026</span>
+        <header role="banner">
+          <nav aria-label="Main navigation">
+            <a href="/" className="logo" aria-label="Alloc-8 — Clinical Placement Management">
+              <img src={alloc8Logo} alt="Alloc-8 logo — clinical placement management software for universities" className="logo-img" width="52" height="52" />
+              <span className="logo-text">Alloc-8</span>
+            </a>
+          </nav>
+          <span className="header-tag" aria-label="Launch timeline">Coming 2026</span>
         </header>
 
-        <main>
+        <main role="main">
           <div className="content">
-            <p className="eyebrow">Healthcare Placement Solutions</p>
+            <p className="eyebrow">Clinical Placement Management for Universities</p>
 
             <div className="hero-split">
-              <div className="hero-left">
-                <h1>A smart placements solution is <em>coming...</em></h1>
+              <section className="hero-left" aria-labelledby="hero-heading">
+                <h1 id="hero-heading">A smart placements solution is <em>coming...</em></h1>
 
                 <p className="subtitle">
-                  A smarter way to manage clinical placements. Streamlined allocation,
-                  seamless coordination, and complete visibility — built for modern healthcare education.
+                  A smarter way to manage clinical placements. Streamlined student allocation,
+                  seamless coordination, and complete visibility — built for university healthcare education programs.
                 </p>
-              </div>
+              </section>
 
-              <div className="hero-right">
+              <section className="hero-right" aria-label="Join waitlist">
                 <div className="form-wrapper">
-                  <form id="waitlist-form" onSubmit={handleSubmit}>
+                  <form id="waitlist-form" onSubmit={handleSubmit} aria-label="Waitlist signup form">
                     <div className="email-row">
                       <div className="input-group">
                         <input
                           type="email"
                           name="email"
-                          placeholder="Enter your email address"
+                          placeholder="Enter your university email address"
                           required
                           autoComplete="email"
+                          aria-label="Email address"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                         />
@@ -140,10 +143,10 @@ export default function App() {
                     <div className="extra-fields expanded">
                       <div className="extra-fields-inner">
                         <div className="field-group">
-                          <label htmlFor="feedback">What features would matter most to you?</label>
+                          <label htmlFor="feedback">What features would matter most to your university?</label>
                           <textarea
                             id="feedback"
-                            placeholder="Share your thoughts, requirements, or ideas..."
+                            placeholder="e.g., automated student allocation, multi-site scheduling..."
                             value={feedback}
                             onChange={(e) => setFeedback(e.target.value)}
                             rows={3}
@@ -154,7 +157,7 @@ export default function App() {
                           <input
                             id="currentSystem"
                             type="text"
-                            placeholder="e.g., manual spreadsheets, existing software..."
+                            placeholder="e.g., manual spreadsheets, InPlace, existing software..."
                             value={currentSystem}
                             onChange={(e) => setCurrentSystem(e.target.value)}
                           />
@@ -163,7 +166,7 @@ export default function App() {
                           <label htmlFor="challenges">What are the main challenges you face?</label>
                           <textarea
                             id="challenges"
-                            placeholder="e.g., inefficiency, lack of transparency, difficulty tracking..."
+                            placeholder="e.g., managing multiple cohorts, compliance tracking, last-minute changes..."
                             value={challenges}
                             onChange={(e) => setChallenges(e.target.value)}
                             rows={3}
@@ -174,12 +177,13 @@ export default function App() {
                   </form>
                   <p className="form-note">Be the first to know when we launch. No spam, ever.</p>
                 </div>
-              </div>
+              </section>
             </div>
 
-            <div className="features">
+            <section className="features" aria-label="Key features">
+              <h2 className="sr-only">Platform features for university placement management</h2>
               <div className="feature">
-                <div className="feature-icon">
+                <div className="feature-icon" aria-hidden="true">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path
                       strokeLinecap="round"
@@ -191,7 +195,7 @@ export default function App() {
                 <span>Student Management</span>
               </div>
               <div className="feature">
-                <div className="feature-icon">
+                <div className="feature-icon" aria-hidden="true">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path
                       strokeLinecap="round"
@@ -203,7 +207,7 @@ export default function App() {
                 <span>Smart Scheduling</span>
               </div>
               <div className="feature">
-                <div className="feature-icon">
+                <div className="feature-icon" aria-hidden="true">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path
                       strokeLinecap="round"
@@ -214,11 +218,11 @@ export default function App() {
                 </div>
                 <span>Compliance Tracking</span>
               </div>
-            </div>
+            </section>
           </div>
         </main>
 
-        <footer>
+        <footer role="contentinfo">
           <div className="footer-left">© 2026 Alloc-8. All rights reserved.</div>
           <div className="footer-credit">
             <span>Made with</span>
