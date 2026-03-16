@@ -100,8 +100,7 @@ export default function App() {
         <header role="banner">
           <nav aria-label="Main navigation">
             <a href="/" className="logo" aria-label="Alloc-8 — Clinical Placement Management">
-              <img src={alloc8Logo} alt="Alloc-8 logo — clinical placement management software for universities" className="logo-img" width="52" height="52" />
-              <span className="logo-text">Alloc-8</span>
+              <img src={"/alloc8.png"} alt="Alloc-8 logo — clinical placement management software for universities" className="logo-img" width="52" height="52" />
             </a>
           </nav>
           <span className="header-tag" aria-label="Launch timeline">Coming 2026</span>
